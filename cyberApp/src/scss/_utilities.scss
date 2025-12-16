@@ -1,0 +1,66 @@
+@use 'variables' as *;
+
+/* Text Colors */
+.text-white { color: $white; }
+.text-cyan-400 { color: $cyan-400; }
+.text-cyan-300 { color: $cyan-300; }
+.text-cyan-500 { color: $cyan-500; }
+.text-green-400 { color: $green-400; }
+.text-green { color: $green-400; }
+.text-yellow-400 { color: #facc15; }
+.text-red-400 { color: $red-400; }
+.text-slate-300 { color: $slate-300; }
+.text-slate-400 { color: $slate-400; }
+.text-slate-500 { color: $slate-500; }
+
+/* Margins & Padding */
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mr-2 { margin-right: 0.5rem; }
+.p-4 { padding: 1rem; }
+.pb-2 { padding-bottom: 0.5rem; }
+.pb-4 { padding-bottom: 1rem; }
+
+/* Flexbox */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+
+/* Dimensions */
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.w-4 { width: 1rem; }
+.h-4 { height: 1rem; }
+.w-5 { width: 1.25rem; }
+.h-5 { height: 1.25rem; }
+
+/* Text Utils */
+.font-bold { font-weight: 700; }
+.font-mono { font-family: $font-mono; }
+.uppercase { text-transform: uppercase; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-lg { font-size: 1.125rem; }
+.text-center { text-align: center; }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Borders */
+.border-b { border-bottom: 1px solid; }
+.border-slate-700 { border-color: $slate-700; }
+.border-slate-800 { border-color: $slate-800; }
+
+/* Misc */
+.cursor-pointer { cursor: pointer; }
+.transition-colors { transition: color 150ms, background-color 150ms; }

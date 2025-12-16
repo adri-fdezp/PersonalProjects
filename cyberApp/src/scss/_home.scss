@@ -1,0 +1,190 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.home-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease-out;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.welcome-banner {
+  background-image: linear-gradient(to right, $slate-900, $slate-800);
+  border: 1px solid $slate-700;
+  padding: 2.5rem;
+  border-radius: 0.75rem; // xl
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); // shadow-2xl
+  flex-shrink: 0;
+
+  .banner-glow {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 33.333%;
+    background-image: linear-gradient(to left, rgba($cyan-900, 0.2), transparent);
+    pointer-events: none;
+  }
+  
+  .banner-text {
+    font-size: 1.125rem; // text-lg
+    color: $slate-300;
+    max-width: 42rem; // max-w-2xl
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.home-tools-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem; // gap-6
+  flex-shrink: 0;
+  padding-bottom: 2rem;
+
+  @include md { grid-template-columns: repeat(2, 1fr); }
+  @include lg { grid-template-columns: repeat(3, 1fr); }
+}
+
+// Enhancements to card-tool for internal elements
+.card-tool {
+  // Existing styles in _components.scss apply here
+  
+  // Icon Background
+  .icon-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    opacity: 0.1;
+    transition: opacity 150ms;
+
+    svg {
+      width: 6rem;
+      height: 6rem;
+    }
+  }
+
+  &:hover .icon-bg {
+    opacity: 0.2;
+  }
+
+  // Main Icon
+  .main-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba($cyan-500, 0.1);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border: 1px solid rgba($cyan-500, 0.2);
+    transition: transform 150ms;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $cyan-400;
+    }
+  }
+
+  &:hover .main-icon {
+    transform: scale(1.1);
+  }
+
+  // Hover effect for purple card
+  &.hover-purple {
+    &:hover {
+      border-color: rgba($purple-500, 0.5);
+      
+      .heading-card { color: $purple-400; }
+    }
+
+    .icon-bg svg { color: $purple-500; }
+    
+    .main-icon {
+      background-color: rgba($purple-500, 0.1);
+      border-color: rgba($purple-500, 0.2);
+      
+      svg { color: $purple-400; }
+    }
+  }
+}
+
+.coming-soon-card {
+  background-color: rgba($slate-900, 0.2);
+  border: 1px solid $slate-800;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0.75;
+  filter: grayscale(100%);
+  transition: all 150ms;
+
+  &:hover {
+    filter: grayscale(0);
+  }
+
+  .icon-box {
+    width: 3rem;
+    height: 3rem;
+    background-color: $slate-800;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $slate-500;
+    }
+  }
+}
+
+.status-footer {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid $slate-800;
+  flex-shrink: 0;
+
+  @include md { grid-template-columns: repeat(4, 1fr); }
+
+  .status-item {
+    background-color: rgba($slate-900, 0.5);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid $slate-800;
+    
+    .label {
+      font-size: 0.75rem;
+      color: $slate-500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .value {
+      font-size: 1.125rem;
+      font-family: $font-mono;
+      
+      &.text-white { color: $white; }
+      &.text-green { color: $green-400; }
+      &.text-cyan { color: $cyan-400; }
+    }
+  }
+}
