@@ -201,16 +201,22 @@
   display: flex;
   height: 100vh;
   background-color: $slate-950;
-  color: $slate-100; // gray-100
+  color: $slate-100;
   overflow: hidden;
+  background-image: radial-gradient(circle at 0% 0%, rgba($cyan-900, 0.15), transparent 40%);
 }
 
 .dashboard-sidebar {
-  width: 16rem; // 64
-  background-color: $slate-900;
-  border-right: 1px solid $slate-800;
+  width: 14rem;
+  background-color: rgba($slate-900, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba($slate-700, 0.4);
   display: none;
   flex-direction: column;
+  padding: 1.5rem 0.75rem;
+  gap: 1.25rem;
+  overflow: hidden;
 
   @include md {
     display: flex;
@@ -223,83 +229,108 @@
   flex-direction: column;
   position: relative;
   overflow-y: auto;
-  background-color: $slate-950;
+  background-color: transparent;
   padding: 1.5rem;
 }
 
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid $slate-800;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: $cyan-400;
-  letter-spacing: 0.05em; // wider
+  padding: 0 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 800;
+  font-size: 1rem;
+  color: $white;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+  white-space: nowrap;
+  
+  &::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: $cyan-500;
+    border-radius: 50%;
+    box-shadow: 0 0 8px $cyan-500;
+    flex-shrink: 0;
+  }
+}
+
+.sidebar-nav-container {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  
+  &::-webkit-scrollbar {
+    width: 0; // Hide scrollbar for a cleaner look
+  }
 }
 
 .sidebar-nav-btn {
   width: 100%;
   text-align: left;
-  padding: 1rem 1.5rem;
-  border-left: 4px solid transparent;
-  transition: all 200ms;
-  background: none;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  transition: all 0.2s ease;
+  background: transparent;
   cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: $slate-400;
+  display: flex;
+  align-items: center;
+  user-select: none;
 
   &:hover {
-    background-color: $slate-800;
+    background-color: rgba($white, 0.05);
+    color: $slate-200;
   }
 
   &.active {
-    border-color: $cyan-500;
-    background-color: rgba($slate-800, 0.5);
-    color: $white;
+    background-color: rgba($cyan-500, 0.12);
+    color: $cyan-400;
+    font-weight: 700;
   }
-
-  &.inactive {
-    border-color: transparent;
-    color: $slate-400;
-
-    &:hover {
-      color: $white;
-      border-color: $slate-600;
-    }
-  }
-}
-
-/* =========================================
-   UTILITY / ANIMATION
-   ========================================= */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* =========================================
-   TOOLS LAYOUT HELPERS
-   ========================================= */
-.sidebar-nav-container {
-  flex: 1;
-  overflow-y: auto;
 }
 
 .sidebar-footer-link {
-  padding: 1rem;
-  border-top: 1px solid $slate-800;
+  padding: 1.25rem 0 0.5rem 0;
+  border-top: 1px solid rgba($slate-700, 0.3);
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
 
   .btn-nav-back {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: center;
+    padding: 0.6rem;
+    background: rgba($slate-800, 0.5);
+    border: 1px solid rgba($slate-700, 0.5);
+    border-radius: 0.5rem;
+    color: $slate-300;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    user-select: none;
+    
+    &:hover {
+      background: rgba($slate-800, 0.8);
+      border-color: rgba($cyan-500, 0.6);
+      color: $cyan-400;
+    }
     
     svg {
-      width: 1rem;
-      height: 1rem;
-      margin-right: 0.5rem;
+      width: 0.9rem;
+      height: 0.9rem;
+      margin-right: 0.4rem;
     }
   }
 }

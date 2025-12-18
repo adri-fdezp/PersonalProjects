@@ -45,6 +45,12 @@
   font-size: 0.875rem; // sm
 }
 
+.btn-cyber-tool {
+  border: 1px solid rgba($cyan-600, 0.3);
+  color: $cyan-400;
+  margin-left: 1rem;
+}
+
 /* =========================================
    HERO SECTION
    ========================================= */
@@ -113,6 +119,13 @@
     width: 12rem; // w-48
   }
 }
+
+.btn-hero-cyber-tool {
+  background-color: rgba($cyan-500, 0.2);
+  border-color: $cyan-500;
+  color: $cyan-400;
+}
+
 
 /* =========================================
    SECTIONS GENERAL

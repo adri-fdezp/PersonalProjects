@@ -68,20 +68,11 @@ const RANSOMWARE_DATA = [
 ];
 
 const VECTOR_DATA = [
-  { name: 'Vuln Exploitation', value: 33 },
-  { name: 'Valid Accounts', value: 31 },
-  { name: 'Phishing', value: 14 },
-  { name: 'Ext Remote Svc', value: 12 },
-  { name: 'Other', value: 10 },
-];
-
-const REGIONAL_MATURITY = [
-  { subject: 'Cloud Sec', A: 120, B: 110, fullMark: 150 },
-  { subject: 'Identity', A: 90, B: 120, fullMark: 150 }, // Adjusted for 2025 gaps
-  { subject: 'Zero Trust', A: 86, B: 130, fullMark: 150 },
-  { subject: 'Detection', A: 99, B: 100, fullMark: 150 },
-  { subject: 'Response', A: 80, B: 85, fullMark: 150 }, // Lowered to reflect readiness gap
-  { subject: 'Training', A: 65, B: 85, fullMark: 150 },
+  { name: 'Vuln Exploitation', value: 38 },
+  { name: 'Phishing', value: 17 },
+  { name: 'Valid Accounts', value: 29 },
+  { name: 'Ext Remote Svc', value: 9 },
+  { name: 'Other', value: 7 },
 ];
 
 const COLORS = ['#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#f97316'];
@@ -91,7 +82,6 @@ const colorScale = scaleLinear()
   .range(["#1e293b", "#ef4444"]);
 
 export default function ThreatCharts() {
-  const [tooltipContent, setTooltipContent] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [mapPosition, setMapPosition] = useState({ coordinates: [0, 20], zoom: 1 });
 
@@ -110,85 +100,85 @@ export default function ThreatCharts() {
   };
 
   return (
-    <div className="charts-container" style={{ padding: '0 1rem 3rem 1rem', color: '#e2e8f0', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div className="charts-container">
       
       {/* HEADER */}
-      <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+      <div className="charts-main-header">
         <div>
-          <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#f8fafc', margin: 0, letterSpacing: '-0.025em' }}>
+          <h1>
             Global Threat Operations Center
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1rem', marginTop: '0.5rem' }}>Data Source: 2024-2025 Intelligence Reports (Mandiant, Verizon DBIR, Cyberint)</p>
+          <p>Data Source: 2024-2025 Intelligence Reports (Mandiant, Verizon DBIR, Cyberint)</p>
         </div>
       </div>
 
       {/* INTERACTIVE MAP & DETAILS PANEL */}
-      <div className="cyber-card" style={{ marginBottom: '3rem', height: '550px', display: 'flex', overflow: 'hidden', padding: 0, borderRadius: '0.75rem', border: '1px solid #334155', background: '#0f172a' }}>
+      <div className="cyber-card map-panel-wrapper">
         
         {/* LEFT SIDE PANEL */}
-        <div style={{ width: '320px', flexShrink: 0, borderRight: '1px solid #334155', padding: '2rem', background: 'rgba(15, 23, 42, 0.6)', overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div className="map-side-panel">
             <div>
-                <h3 className="heading-card" style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: '700', color: '#f8fafc' }}>
+                <h3 className="heading-card map-side-panel-header">
                     Threat Intelligence
                 </h3>
                 {selectedCountry ? (
-                    <div className="animate-fade-in">
-                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                            <span style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}>📍</span>
-                            <h4 style={{ color: '#38bdf8', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>{selectedCountry.name}</h4>
+                    <div className="animate-fade-in map-country-details">
+                        <div className="row">
+                            <span className="flag-icon">📍</span>
+                            <h4>{selectedCountry.name}</h4>
                         </div>
                         
-                                             <div style={{ marginBottom: '2rem', background: 'rgba(30, 41, 59, 0.5)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #334155' }}>
-                                                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '700', letterSpacing: '0.05em', display: 'block', marginBottom: '0.25rem' }}>Cyber Risk Score</span>
-                                                <div style={{ fontSize: '2.5rem', fontWeight: '800', color: colorScale(selectedCountry.risk), lineHeight: 1 }}>
-                                                    {selectedCountry.risk}<span style={{ fontSize: '1rem', color: '#64748b', fontWeight: '600' }}>/100</span>
+                                             <div className="risk-score-box">
+                                                <span className="label">Cyber Risk Score</span>
+                                                <div className="value" style={{ color: colorScale(selectedCountry.risk) }}>
+                                                    {selectedCountry.risk}<span>/100</span>
                                                 </div>
-                                                <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.75rem', lineHeight: '1.4', borderTop: '1px solid #334155', paddingTop: '0.5rem' }}>
+                                                <p>
                                                     <strong>Risk Context:</strong> Composite index reflecting frequency of APT targeting, malware infection rates, and geopolitical exposure intensity.
                                                 </p>
                                              </div>
                         
-                                             <div style={{ marginBottom: '1.5rem' }}>
-                                                <span style={{ fontSize: '0.85rem', color: '#94a3b8', display: 'block', marginBottom: '0.25rem' }}>Classification</span>
-                                                <div style={{ color: '#e2e8f0', fontSize: '1.1rem', fontWeight: '600' }}>{selectedCountry.type}</div>
-                                                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>
+                                             <div className="classification-box">
+                                                <span className="label">Classification</span>
+                                                <div className="value">{selectedCountry.type}</div>
+                                                <p>
                                                     {selectedCountry.type === 'Aggressor' || selectedCountry.type === 'Nation State' ? 'Active source of offensive cyber operations.' : 
                                                      selectedCountry.type === 'Conflict Zone' ? 'Region experiencing active kinetic and cyber warfare.' :
                                                      'Primary destination for targeted cyber espionage or criminal campaigns.'}
                                                 </p>
                                              </div>
-                        <div>
-                            <span style={{ fontSize: '0.85rem', color: '#94a3b8', display: 'block', marginBottom: '0.25rem' }}>Key Threat Indicators</span>
-                            <div style={{ color: '#cbd5e1', lineHeight: '1.6', fontSize: '0.95rem' }}>{selectedCountry.details}</div>
+                        <div className="kpi-box">
+                            <span className="label">Key Threat Indicators</span>
+                            <div className="value">{selectedCountry.details}</div>
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60%', color: '#64748b', textAlign: 'center', marginTop: '2rem' }}>
-                        <span style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🗺️</span>
+                    <div className="map-side-panel-empty">
+                        <span>🗺️</span>
                         <p>Select a country on the map to view its detailed cyber threat profile.</p>
                     </div>
                 )}
             </div>
             
             {/* Source Footer */}
-            <div style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #334155', fontSize: '0.75rem', color: '#64748b' }}>
-                <span style={{ fontWeight: '700' }}>Source:</span> Global Threat Intelligence Report 2025 (Mandiant, CrowdStrike)
+            <div className="map-side-panel-source-footer">
+                <span>Source:</span> Global Threat Intelligence Report 2025 (Mandiant, CrowdStrike)
             </div>
         </div>
 
         {/* RIGHT SIDE MAP */}
-        <div style={{ flex: 1, position: 'relative', background: '#0f172a' }}>
-            <h3 className="heading-card" style={{ position: 'absolute', top: '2rem', right: '2rem', zIndex: 10, margin: 0, fontSize: '1rem', fontWeight: '700', background: 'rgba(15, 23, 42, 0.8)', padding: '0.5rem 1rem', borderRadius: '0.5rem', backdropFilter: 'blur(4px)', border: '1px solid #334155', color: '#94a3b8' }}>
+        <div className="map-main-area">
+            <h3 className="heading-card hotspots-title">
             Geopolitical Hotspots
             </h3>
             
             {/* Zoom Controls */}
-            <div style={{ position: 'absolute', top: '5rem', left: '2rem', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <button onClick={handleZoomIn} style={{ width: '2rem', height: '2rem', background: '#1e293b', border: '1px solid #334155', color: '#f8fafc', borderRadius: '0.25rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>+</button>
-                <button onClick={handleZoomOut} style={{ width: '2rem', height: '2rem', background: '#1e293b', border: '1px solid #334155', color: '#f8fafc', borderRadius: '0.25rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>−</button>
+            <div className="zoom-controls">
+                <button onClick={handleZoomIn} className="map-zoom-button">+</button>
+                <button onClick={handleZoomOut} className="map-zoom-button">−</button>
             </div>
 
-            <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+            <div className="map-canvas">
                 <ComposableMap projectionConfig={{ scale: 160 }} width={900} height={500} style={{ width: "100%", height: "100%" }}>
                     <ZoomableGroup 
                         zoom={mapPosition.zoom} 
@@ -199,7 +189,6 @@ export default function ThreatCharts() {
                         <Geographies geography={GEO_URL}>
                         {({ geographies }) =>
                     geographies.map((geo) => {
-                        // Improved matching logic: Check ID, ISO_A3, Exact Name, and Partial Name
                         const d = THREAT_DATA.find((s) => 
                             s.id === geo.id || 
                             s.id === geo.properties.ISO_A3 || 
@@ -252,25 +241,28 @@ export default function ThreatCharts() {
                                                                     </Geographies>
                                                                     </ZoomableGroup>
                                                                 </ComposableMap>
-                                                                <Tooltip id="my-tooltip" style={{ backgroundColor: "rgba(15, 23, 42, 0.95)", border: "1px solid #334155", color: "#f8fafc", zIndex: 100, padding: "0.5rem 0.75rem", borderRadius: "0.5rem", fontSize: "0.8rem" }} />
+                                                                <Tooltip id="my-tooltip" className="map-tooltip" />
                                                             </div>                                    
                                     {/* Legend Overlay */}
-                                    <div style={{ position: 'absolute', bottom: '2rem', right: '2rem', background: 'rgba(15, 23, 42, 0.9)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #334155', fontSize: '0.75rem', color: '#cbd5e1' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}><span style={{ width: '10px', height: '10px', background: '#ef4444', marginRight: '0.75rem', borderRadius: '2px' }}></span> Aggressor / Source</div>
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}><span style={{ width: '10px', height: '10px', background: '#f97316', marginRight: '0.75rem', borderRadius: '2px' }}></span> Conflict Zone</div>
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}><span style={{ width: '10px', height: '10px', background: '#3b82f6', marginRight: '0.75rem', borderRadius: '2px' }}></span> Primary Target</div>
-                                        <div style={{ display: 'flex', alignItems: 'center' }}><span style={{ width: '10px', height: '10px', background: '#1e293b', border: '1px solid #475569', marginRight: '0.75rem', borderRadius: '2px' }}></span> Low Activity / No Data</div>
+                                    <div className="map-legend-overlay">
+                                        <div className="map-legend-item"><span className="red"></span> Aggressor / Source</div>
+                                        <div className="map-legend-item"><span className="orange"></span> Conflict Zone</div>
+                                        <div className="map-legend-item"><span className="blue"></span> Primary Target</div>
+                                        <div className="map-legend-item"><span className="dark-slate"></span> Low Activity / No Data</div>
                                     </div>
         </div>
       </div>
 
       {/* METRICS GRID */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="charts-metrics-grid">
         
         {/* CHART 1: RANSOMWARE */}
-        <div className="cyber-card" style={{ flex: '1 1 250px', padding: '1.5rem', borderRadius: '0.75rem', background: 'rgba(30, 41, 59, 0.4)', border: '1px solid #334155', backdropFilter: 'blur(8px)' }}>
-          <h3 className="heading-card" style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: '700' }}>Top Active Ransomware Groups (2025)</h3>
-          <div style={{ height: '200px', width: '100%', marginTop: '1rem' }}>
+        <div className="cyber-card chart-card-col">
+          <div className="chart-title-group">
+            <h3 className="heading-card">Top Active Ransomware Groups</h3>
+            <p className="chart-source">SOURCE: Ransomware Ransom Watch / CISA</p>
+          </div>
+          <div className="chart-area-container">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={RANSOMWARE_DATA} layout="vertical" margin={{ left: 30, right: 30 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
@@ -287,39 +279,41 @@ export default function ThreatCharts() {
         </div>
 
         {/* CHART 2: ATTACK VECTORS */}
-        <div className="cyber-card" style={{ flex: '1 1 250px', padding: '1.5rem', borderRadius: '0.75rem', background: 'rgba(30, 41, 59, 0.4)', border: '1px solid #334155', backdropFilter: 'blur(8px)' }}>
-            <h3 className="heading-card" style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: '700' }}>Primary Initial Access Vectors</h3>
-            <div style={{ height: '200px', width: '100%', marginTop: '1rem' }}>
+        <div className="cyber-card chart-card-col">
+            <div className="chart-title-group">
+              <h3 className="heading-card">Primary Initial Access Vectors</h3>
+              <p className="chart-source">SOURCE: Mandiant M-Trends 2024</p>
+            </div>
+            <div className="chart-area-container">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
                             data={VECTOR_DATA}
                             cx="50%"
                             cy="50%"
-                            innerRadius={70}
-                            outerRadius={95}
+                            innerRadius={60}
+                            outerRadius={85}
                             paddingAngle={5}
                             dataKey="value"
                             labelLine={false}
-                            label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
                         >
                             {VECTOR_DATA.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
                             ))}
                         </Pie>
                         <RechartsTooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f1f5f9', borderRadius: '0.5rem' }} />
-                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fill="#cbd5e1" fontSize="16" fontWeight="600">
-                            2025
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fill="#cbd5e1" fontSize="14" fontWeight="600">
+                            2024-25
                         </text>
                     </PieChart>
                 </ResponsiveContainer>
             </div>
-             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.8rem', marginTop: '1.5rem' }}>
+             <div className="chart-legend-grid">
                 {VECTOR_DATA.map((entry, index) => (
-                    <span key={index} style={{ display: 'flex', alignItems: 'center', color: '#94a3b8' }}>
-                        <span style={{ width: '10px', height: '10px', background: COLORS[index % COLORS.length], marginRight: '6px', borderRadius: '50%' }}></span>
-                        {entry.name}
-                    </span>
+                    <div key={index} className="chart-legend-item">
+                        <span className="color-dot" style={{ background: COLORS[index % COLORS.length] }}></span>
+                        {entry.name} ({entry.value}%)
+                    </div>
                 ))}
             </div>
         </div>

@@ -1,7 +1,10 @@
 import { portfolioData } from '../../data/portfolioData';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
+  const location = useLocation();
+  const isPortfolio = location.pathname.startsWith('/portfolio');
+
   return (
     <header className="header-fixed">
       <nav className="header-container">
@@ -9,7 +12,13 @@ export default function Header() {
           &lt;{portfolioData.personal.shortName} /&gt;
         </Link>
         <div className="nav-links">
-          <Link to="/" className="btn-nav btn-primary" style={{border: '1px solid rgba(22, 78, 99, 0.3)', color: '#22d3ee'}}>
+          {/* Internal Navigation (Only show if in portfolio) */}
+          <a href="#about" className="btn-nav">About</a>
+          <a href="#projects" className="btn-nav">Projects</a>
+          <a href="#contact" className="btn-nav">Contact</a>
+
+          {/* Cyber Tool Link */}
+          <Link to="/" className="btn-nav btn-primary btn-cyber-tool">
             Cybersecurity Tools
           </Link>
         </div>

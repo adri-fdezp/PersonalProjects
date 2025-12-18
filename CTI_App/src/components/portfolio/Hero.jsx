@@ -32,15 +32,21 @@ export default function Hero() {
         </div>
         
         <div className="hero-actions">
-            <Link to="/#about" className="btn-primary">
+            {/* New Button for Cyber Tool */}
+            <Link to="/" className="btn-primary btn-hero-cyber-tool">
+                &gt; Launch_Cyber_Toolkit
+            </Link>
+
+            {/* Fixed Scroll Links */}
+            <a href="#about" className="btn-primary">
                 &gt; About_Me
-            </Link>
-            <Link to="/#projects" className="btn-primary">
+            </a>
+            <a href="#projects" className="btn-primary">
                 &gt; Projects
-            </Link>
-            <Link to="/#contact" className="btn-primary">
+            </a>
+            <a href="#contact" className="btn-primary">
                 &gt; Contact
-            </Link>
+            </a>
         </div>
       </div>
     </section>

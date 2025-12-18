@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { 
+  FaBolt, FaToolbox, FaDna, FaBug, FaUserSecret, 
+  FaPaste, FaPlay, FaExclamationTriangle, FaCheckCircle, 
+  FaShieldAlt, FaExternalLinkAlt 
+} from 'react-icons/fa';
 
 // --- Header Analyzer Component ---
 function HeaderAnalyzer() {
@@ -8,7 +13,7 @@ function HeaderAnalyzer() {
   const analyzeHeaders = () => {
     if (!headerText) return;
 
-    // Simple regex extraction logic (Mock Simulation)
+    // Regex Logic
     const returnPathMatch = headerText.match(/Return-Path:\s*<(.+?)>/i);
     const fromMatch = headerText.match(/From:\s*.*<(.+?)>/i) || headerText.match(/From:\s*(.+)/i);
     const spfMatch = headerText.match(/Received-SPF:\s*(\w+)/i);
@@ -38,15 +43,7 @@ function HeaderAnalyzer() {
       flags.push("No DKIM Signature found (Weak Authentication)");
     }
 
-    setAnalysis({
-      returnPath,
-      from,
-      spf,
-      dkim,
-      ip,
-      riskScore,
-      flags
-    });
+    setAnalysis({ returnPath, from, spf, dkim, ip, riskScore, flags });
   };
 
   const loadSample = () => {
@@ -60,57 +57,70 @@ X-Originating-IP: [10.5.22.11]`;
   };
 
   return (
-    <div className="analyzer-panel">
-      <div className="panel-header">
-        <label>Paste Raw Email Headers:</label>
-        <button onClick={loadSample} className="load-sample-btn">Load Malicious Sample</button>
+    <div className={`analyzer-layout ${analysis ? 'has-results' : ''}`}>
+      
+      {/* INPUT SECTION */}
+      <div className="input-panel">
+        <div className="panel-header">
+          <h4><FaPaste /> Raw Headers</h4>
+          <button onClick={loadSample} className="text-btn">Load Malicious Sample</button>
+        </div>
+        <div className="editor-wrapper">
+          <textarea 
+            value={headerText}
+            onChange={(e) => setHeaderText(e.target.value)}
+            placeholder="Paste email headers here to begin analysis..."
+            spellCheck="false"
+          />
+        </div>
+        <button onClick={analyzeHeaders} className="action-btn">
+          <FaPlay /> Analyze Headers
+        </button>
       </div>
-      <textarea 
-        value={headerText}
-        onChange={(e) => setHeaderText(e.target.value)}
-        placeholder={`Return-Path: <...>\nReceived: from ...\n...`}
-      />
-      <button onClick={analyzeHeaders} className="analyze-btn">
-        Analyze Headers
-      </button>
 
+      {/* RESULTS SECTION */}
       {analysis && (
-        <div className="analysis-result" style={{ marginTop: '1.5rem' }}>
-          <div className="result-header">
-            <h4>Analysis Report</h4>
-            <span className={`risk-badge ${analysis.riskScore > 2 ? 'high' : analysis.riskScore > 0 ? 'medium' : 'low'}`}>
-              Risk Level: {analysis.riskScore > 2 ? 'HIGH' : analysis.riskScore > 0 ? 'MEDIUM' : 'LOW'}
-            </span>
+        <div className="results-panel animate-slide-in">
+          <div className="panel-header">
+             <h4>Analysis Report</h4>
+             <div className={`risk-tag ${analysis.riskScore > 2 ? 'high' : analysis.riskScore > 0 ? 'medium' : 'low'}`}>
+               {analysis.riskScore > 2 ? 'High Risk' : analysis.riskScore > 0 ? 'Medium Risk' : 'Low Risk'}
+             </div>
           </div>
-          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="label">Return-Path</span>
-              <code className="value">{analysis.returnPath}</code>
-            </div>
-            <div>
-              <span className="label">From Address</span>
-              <code className="value white">{analysis.from}</code>
-            </div>
-            <div>
-              <span className="label">SPF Status</span>
-              <span className={`value ${analysis.spf.toLowerCase().includes('fail') ? 'red' : 'green'}`}>{analysis.spf}</span>
-            </div>
-            <div>
-              <span className="label">Originating IP</span>
-              <code className="value plain">{analysis.ip}</code>
-            </div>
+
+          <div className="metrics-list">
+             <div className="metric-item">
+                <label>Return-Path</label>
+                <div className="value">{analysis.returnPath}</div>
+             </div>
+             <div className="metric-item">
+                <label>From Address</label>
+                <div className="value">{analysis.from}</div>
+             </div>
+             <div className="metric-item">
+                <label>SPF Status</label>
+                <div className={`value ${analysis.spf.toLowerCase().includes('fail') ? 'text-red' : 'text-green'}`}>
+                  {analysis.spf}
+                </div>
+             </div>
+             <div className="metric-item">
+                <label>Originating IP</label>
+                <div className="value">{analysis.ip}</div>
+             </div>
           </div>
-          
-          {analysis.flags.length > 0 && (
+
+          {analysis.flags.length > 0 ? (
             <div className="flags-container">
-              <h5>Detected Red Flags</h5>
+              <h5><FaExclamationTriangle /> Detected Threats</h5>
               <ul>
                 {analysis.flags.map((flag, i) => (
-                  <li key={i}>
-                    <span className="icon">⚠️</span> {flag}
-                  </li>
+                  <li key={i}>{flag}</li>
                 ))}
               </ul>
+            </div>
+          ) : (
+            <div className="safe-container">
+              <FaCheckCircle /> <span>No obvious anomalies detected in headers.</span>
             </div>
           )}
         </div>
@@ -123,156 +133,151 @@ const SECTIONS = [
   {
     id: 'simulator',
     title: 'Header Simulator',
-    icon: '⚡',
+    icon: <FaBolt />,
+    description: 'Interactive email header analysis sandbox.',
     content: (
-      <div className="content-section">
-        <p className="intro-text">
-          Practice identifying spoofing and authentication failures using this interactive header parser. Paste a raw email header to extract key indicators.
-        </p>
+      <div className="section-content">
         <HeaderAnalyzer />
       </div>
     )
   },
   {
     id: 'tools',
-    title: 'Analyst Tools Locker',
-    icon: '🧰',
+    title: 'Tool Locker',
+    icon: <FaToolbox />,
+    description: 'External utilities for safe verification.',
     content: (
-      <div className="content-section">
-        <p className="intro-text">
-          Essential external utilities for verifying IOCs (Indicators of Compromise) safely.
-        </p>
-        <div className="tools-grid">
-          <a href="https://mxtoolbox.com/EmailHeaders.aspx" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>MxToolbox Header Analyzer ↗</h4>
-            <p>Visualizes hops and delays. Checks SPF/DKIM alignment.</p>
-          </a>
-          <a href="https://toolbox.googleapps.com/apps/messageheader/" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>Google Admin Toolbox ↗</h4>
-            <p>Deep dive into delivery delays and routing errors.</p>
-          </a>
-          <a href="https://urlscan.io/" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>urlscan.io ↗</h4>
-            <p>Scans URLs and captures screenshots without visiting them.</p>
-          </a>
-          <a href="https://www.virustotal.com/gui/home/url" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>VirusTotal ↗</h4>
-            <p>Check reputation of URLs, IPs, and file hashes against 70+ vendors.</p>
-          </a>
-          <a href="https://app.any.run/" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>Any.Run (Sandbox) ↗</h4>
-            <p>Interactive malware sandbox. Watch the infection in real-time.</p>
-          </a>
-          <a href="https://phishtank.org/" target="_blank" rel="noreferrer" className="tool-link-card">
-            <h4>PhishTank ↗</h4>
-            <p>Crowdsourced database of known phishing URLs.</p>
-          </a>
-        </div>
+      <div className="grid-layout">
+        <a href="https://mxtoolbox.com/EmailHeaders.aspx" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>MxToolbox Analyzer</h4>
+          <p>Visualizes hops and delays. Checks SPF/DKIM alignment.</p>
+        </a>
+        <a href="https://toolbox.googleapps.com/apps/messageheader/" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>Google Admin Toolbox</h4>
+          <p>Deep dive into delivery delays and routing errors.</p>
+        </a>
+        <a href="https://urlscan.io/" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>urlscan.io</h4>
+          <p>Scans URLs and captures screenshots safely.</p>
+        </a>
+        <a href="https://www.virustotal.com/gui/home/url" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>VirusTotal</h4>
+          <p>Reputation check against 70+ security vendors.</p>
+        </a>
+        <a href="https://app.any.run/" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>Any.Run Sandbox</h4>
+          <p>Interactive malware sandbox for real-time analysis.</p>
+        </a>
+        <a href="https://phishtank.org/" target="_blank" rel="noreferrer" className="card-link">
+          <div className="card-icon"><FaExternalLinkAlt /></div>
+          <h4>PhishTank</h4>
+          <p>Crowdsourced database of known phishing URLs.</p>
+        </a>
       </div>
     )
   },
   {
     id: 'anatomy',
-    title: 'Anatomy of a Phish',
-    icon: '🧬',
+    title: 'Anatomy',
+    icon: <FaDna />,
+    description: 'Dissecting the structure of a phishing attack.',
     content: (
-      <div className="content-section">
-        <p className="intro-text">
-          As an analyst, your first step is dissecting the communication. Phishing relies on psychological manipulation (urgency, fear, curiosity) combined with technical deception.
-        </p>
-        <div className="info-card-grid">
-          <div className="detail-card">
-            <h4 className="cyan">
-              <span className="icon">📧</span> The Header
-            </h4>
-            <ul>
-              <li><strong>Return-Path vs. From:</strong> Do they match? A mismatch is a primary indicator of spoofing.</li>
-              <li><strong>Received-SPF/DKIM:</strong> Look for 'FAIL' or 'SoftFail'. Legit orgs enforce these.</li>
-              <li><strong>Reply-To:</strong> Attackers often set a different Reply-To address to capture responses.</li>
-            </ul>
-          </div>
-          <div className="detail-card">
-            <h4 className="red">
-              <span className="icon">🔗</span> The Payload (URL/Attachment)
-            </h4>
-            <ul>
-              <li>Typosquatting: <code className="cyan">microsoft-login-secure.com</code> instead of <code>microsoft.com</code>.</li>
-              <li>Obfuscation: URL shorteners (bit.ly) or open redirects used to hide the true destination.</li>
-              <li>Double Extensions: <code className="red">invoice.pdf.exe</code> relies on Windows hiding known extensions.</li>
-            </ul>
-          </div>
+      <div className="split-layout">
+        <div className="info-card">
+          <h4 className="text-cyan"><FaUserSecret /> The Header & Metadata</h4>
+          <ul>
+            <li><strong>Return-Path vs. From:</strong> A mismatch is a primary indicator of "Display Name Spoofing" or envelope forgery.</li>
+            <li><strong>Received-SPF/DKIM:</strong> Analyze 'Authentication-Results'. Legit organizations rarely fail these; a 'SoftFail' often warrants quarantine.</li>
+            <li><strong>Reply-To Header:</strong> Check if responses are diverted to a look-alike domain (e.g., @microsoft-support.com instead of @microsoft.com).</li>
+            <li><strong>X-Mailer:</strong> Identifies the software used to send the email. Unusual mailers (like 'PHP Mailer') for corporate accounts are suspicious.</li>
+            <li><strong>Message-ID:</strong> Validating the domain in the Message-ID against the sender domain can reveal automated bulk-mailing tools.</li>
+          </ul>
+        </div>
+        <div className="info-card">
+          <h4 className="text-red"><FaBug /> The Payload & Social Engineering</h4>
+          <ul>
+            <li><strong>Typosquatting:</strong> <code className="code-pill">micros0ft.com</code> or <code className="code-pill">login-apple.id</code>. Look for visually similar characters (homoglyphs).</li>
+            <li><strong>URL Obfuscation:</strong> Use of open redirects (e.g., <code>google.com/url?q=malicious.com</code>) to bypass reputation filters.</li>
+            <li><strong>Sense of Urgency:</strong> Keywords like 'Immediate Action Required', 'Account Suspended', or 'Legal Notice' designed to bypass critical thinking.</li>
+            <li><strong>Hidden Extensions:</strong> Files like <code className="code-pill">report.pdf.js</code> exploit the "Hide extensions for known file types" setting in Windows.</li>
+            <li><strong>Zero-Font/Small-Text:</strong> Attackers hide "Safe" text in 0px fonts to confuse automated NLP scanners.</li>
+          </ul>
         </div>
       </div>
     )
   },
   {
     id: 'types',
-    title: 'Variants & Vectors',
-    icon: '🦠',
+    title: 'Variants',
+    icon: <FaShieldAlt />,
+    description: 'Common attack vectors and methodologies.',
     content: (
-      <div className="content-section">
-        <p className="intro-text">
-          Phishing is not monolithic. Identifying the specific variant helps in determining the attacker's intent and sophistication level.
-        </p>
-        <div className="variant-list">
-          <div className="variant-item cyan">
-            <div>
-              <h4>Spear Phishing</h4>
-              <p>Highly targeted attack against a specific individual or organization. Uses gathered OSINT (LinkedIn, etc.) to build trust.</p>
-            </div>
-          </div>
-          <div className="variant-item purple">
-            <div>
-              <h4>Whaling</h4>
-              <p>Targeting high-profile executives (C-Suite). Often disguises as legal subpoenas or urgent board matters.</p>
-            </div>
-          </div>
-          <div className="variant-item green">
-            <div>
-              <h4>BEC (Business Email Compromise)</h4>
-              <p>No malicious links. Relies purely on social engineering to trick finance into wiring money. Often compromised vendor accounts.</p>
-            </div>
-          </div>
-          <div className="variant-item yellow">
-            <div>
-              <h4>Smishing / Vishing</h4>
-              <p>Attacks via SMS or Voice. "Your bank account is locked" texts are the most common smishing vector.</p>
-            </div>
-          </div>
+      <div className="grid-layout">
+        <div className="info-card variant-card">
+          <h4>Spear Phishing</h4>
+          <p>Highly targeted attack using OSINT to build trust with specific individuals.</p>
+        </div>
+        <div className="info-card variant-card">
+          <h4>Whaling</h4>
+          <p>Targeting C-Suite executives with fake legal subpoenas or board matters.</p>
+        </div>
+        <div className="info-card variant-card">
+          <h4>BEC (Business Email Compromise)</h4>
+          <p>Social engineering without links, tricking finance into wire transfers.</p>
+        </div>
+        <div className="info-card variant-card">
+          <h4>Smishing / Vishing</h4>
+          <p>Attacks via SMS or Voice. "Your account is locked" is a common pretext.</p>
         </div>
       </div>
     )
   },
   {
-    id: 'analysis',
-    title: 'Analyst Workflow',
-    icon: '🕵️‍♂️',
+    id: 'workflow',
+    title: 'Workflow',
+    icon: <FaCheckCircle />,
+    description: 'Standard Investigation Procedure (SIP).',
     content: (
-      <div className="content-section">
-        <div className="workflow-list">
-          <h3>Standard Investigation Procedure (SIP)</h3>
-          <ol>
-            <li>
-              <div className="step-marker"><span>1</span></div>
-              <h4>Safe Isolation</h4>
-              <p>Never open suspicious links on a production machine. Use a dedicated VM or sandbox (Any.Run, Cuckoo).</p>
-            </li>
-            <li>
-              <div className="step-marker"><span>2</span></div>
-              <h4>Header Analysis</h4>
-              <p>Extract headers. Check <code>X-Originating-IP</code> and SPF/DKIM/DMARC results. Map the hops.</p>
-            </li>
-            <li>
-              <div className="step-marker"><span>3</span></div>
-              <h4>Indicator Extraction (IOCs)</h4>
-              <p>Extract URLs, Domains, IPs, and Attachment Hashes. Check reputation on VirusTotal, Talos, and AbuseIPDB.</p>
-            </li>
-            <li>
-              <div className="step-marker"><span>4</span></div>
-              <h4>Defensive Action</h4>
-              <p>If malicious: Block Sender, Block Domain/URL at proxy, Delete from inboxes (remediation), and Alert users.</p>
-            </li>
-          </ol>
+      <div className="workflow-steps">
+        <div className="step-card">
+          <div className="step-number">01</div>
+          <div>
+            <h4>Safe Triage & Isolation</h4>
+            <p>Download the email source (.eml) or headers. Move to a non-persistent Virtual Machine or a dedicated sandbox environment. Never interact with links or attachments on your primary workstation.</p>
+          </div>
+        </div>
+        <div className="step-card">
+          <div className="step-number">02</div>
+          <div>
+            <h4>Technical Header Analysis</h4>
+            <p>Perform a reverse IP lookup on the <code>X-Originating-IP</code>. Verify SPF, DKIM, and DMARC alignment. Map the 'Received' hops to find the true geographic origin of the transmission.</p>
+          </div>
+        </div>
+        <div className="step-card">
+          <div className="step-number">03</div>
+          <div>
+            <h4>Indicator Extraction (IOCs)</h4>
+            <p>Defang URLs (e.g., <code>hxxp://...</code>) before documentation. Extract file hashes (MD5/SHA256) and check against global databases like VirusTotal or Hybrid Analysis.</p>
+          </div>
+        </div>
+        <div className="step-card">
+          <div className="step-number">04</div>
+          <div>
+            <h4>Reputation & Threat Intel</h4>
+            <p>Check the registration date of the sender's domain. Domains created in the last 30 days (Newly Observed Domains) are significantly more likely to be malicious.</p>
+          </div>
+        </div>
+        <div className="step-card">
+          <div className="step-number">05</div>
+          <div>
+            <h4>Remediation & Hunting</h4>
+            <p>Block the IOCs at the perimeter (Firewall/Proxy). Perform a "Sweep" across the organization's mail server (O365/GSuite) to find and delete similar messages from other inboxes.</p>
+          </div>
         </div>
       </div>
     )
@@ -281,41 +286,38 @@ const SECTIONS = [
 
 export default function PhishingDetection() {
   const [activeTab, setActiveTab] = useState('simulator');
-
   const activeContent = SECTIONS.find(s => s.id === activeTab);
 
   return (
     <div className="phishing-container">
-      {/* HEADER */}
-      <div className="tool-header border-b border-slate-700 pb-6 mb-6">
-        <h2>
-          <span style={{ marginRight: '0.75rem', fontSize: '2rem' }}>🎣</span> Phishing Analysis & Defense
-        </h2>
-        <p>
-          Analyst Guide: Detection methodologies, indicator extraction, and defensive strategies against social engineering.
-        </p>
+      <div className="phishing-header">
+        <div>
+          <h2>Phishing Defense Center</h2>
+          <p className="subtitle">Analyze headers, verify IOCs, and understand attack vectors.</p>
+        </div>
+        <div className="tabs-nav">
+          {SECTIONS.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => setActiveTab(section.id)}
+              className={`nav-item ${activeTab === section.id ? 'active' : ''}`}
+              title={section.title}
+            >
+              <span className="icon">{section.icon}</span>
+              <span className="label">{section.title}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* TABS */}
-      <div className="tool-tabs">
-        {SECTIONS.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => setActiveTab(section.id)}
-            className={`tab-item ${activeTab === section.id ? 'active' : ''}`}
-          >
-            <span style={{ marginRight: '0.5rem' }}>{section.icon}</span>
-            {section.title}
-          </button>
-        ))}
-      </div>
-
-      {/* CONTENT */}
-      <div className="flex-1 overflow-y-auto pr-2 animate-fade-in">
-        <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'white', marginBottom: '1.5rem', borderLeft: '4px solid #06b6d4', paddingLeft: '1rem' }}>
-            {activeContent.title}
-        </h3>
-        {activeContent.content}
+      <div className="phishing-content">
+        <div className="section-header">
+          <h3>{activeContent.title}</h3>
+          <p>{activeContent.description}</p>
+        </div>
+        <div className="content-body animate-fade-in">
+          {activeContent.content}
+        </div>
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export default function Tools() {
         <div className="sidebar-header">
           Cybersecurity Toolkit
         </div>
-        
+
         <nav className="sidebar-nav-container">
           {modules.map((mod) => (
             <button

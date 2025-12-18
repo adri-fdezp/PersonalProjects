@@ -80,59 +80,68 @@ const osintData = {
 };
 
 export default function OsintDashboard() {
-  const [activeCategory, setActiveCategory] = useState(Object.keys(osintData)[0]); // Set initial active category to the first one available
+  const [activeCategory, setActiveCategory] = useState(Object.keys(osintData)[0]);
 
   return (
-    <div className="tool-view-container">
+    <div className="osint-dashboard-container">
       {/* HEADER SECTION */}
-      <div className="tool-header">
-        <h2>OSINT Framework</h2>
+      <div className="osint-header">
+        <h2>
+          <span>⚡</span> OSINT Framework
+        </h2>
         <p>
-          Open Source Intelligence tools for reconnaissance and investigation.
+          A selection of intelligence tools and services for reconnaissance and investigation.
         </p>
       </div>
 
       {/* NAVIGATION TABS */}
-      <div className="tool-tabs">
+      <div className="osint-tabs">
         {Object.keys(osintData).map((category) => (
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className={`tab-item ${activeCategory === category ? 'active' : ''}`}
+            className={`osint-tab-item ${activeCategory === category ? 'active' : ''}`}
           >
             {category}
           </button>
         ))}
       </div>
 
-      {/* CONTENT AREA */}
-      <div className="flex-1 min-h-0">
-        {/* TOOLS GRID */}
-        <div className="tool-grid">
+      {/* TOOLS GRID */}
+      <div className="osint-tool-grid-wrapper">
+        <div className="osint-tool-grid">
         {osintData[activeCategory].map((tool, index) => (
             <a
-            key={index}
-            href={tool.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tool-item"
+              key={index}
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="osint-tool-card-modern"
             >
-            <div>
-                <div className="tool-item-header">
-                    <div className="tool-item-title-group">
-                         <img 
-                            src={`https://www.google.com/s2/favicons?domain=${new URL(tool.url).hostname}&sz=32`} 
-                            alt={tool.name} 
-                            onError={(e) => { e.target.style.display = 'none'; }} 
-                        />
-                        <h3>{tool.name}</h3>
-                    </div>
-                    <svg className="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                    </svg>
+              <div 
+                className="osint-tool-icon-wrapper"
+              >
+                  <img 
+                      src={`https://www.google.com/s2/favicons?domain=${new URL(tool.url).hostname}&sz=32`} 
+                      alt={tool.name} 
+                      onError={(e) => { e.target.style.display = 'none'; }} 
+                      className="osint-tool-icon"
+                  />
+              </div>
+              
+              <div className="osint-tool-content">
+                <div className="osint-tool-title-row">
+                   <h3 className="osint-tool-title">
+                    {tool.name}
+                  </h3>
+                  <svg className="osint-external-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
                 </div>
-                <p>{tool.desc}</p>
-            </div>
+                <p className="osint-tool-description">
+                  {tool.desc}
+                </p>
+              </div>
             </a>
         ))}
         </div>

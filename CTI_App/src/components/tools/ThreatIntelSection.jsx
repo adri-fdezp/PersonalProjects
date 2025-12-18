@@ -60,7 +60,7 @@ export default function ThreatIntelSection() {
                 }
             }}
         >
-            Live Metrics (Charts & Map)
+            Metrics (Charts & Map)
         </button>
       </div>
 
