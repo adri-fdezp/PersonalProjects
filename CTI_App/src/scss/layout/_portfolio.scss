@@ -1,0 +1,21 @@
+@use '../abstracts/variables' as *;
+
+.portfolio-layout {
+  position: relative;
+  min-height: 100vh;
+  color: $slate-100;
+  
+  .layout-main {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+}

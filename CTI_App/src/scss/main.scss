@@ -1,9 +1,24 @@
-@use 'variables' as *;
-@use 'mixins' as *;
-@use 'base';
-@use 'components';
-@use 'tools';
-@use 'phishing';
-@use 'home';
-@use 'portfolio';
-@use 'utilities';
+// 1. Abstracts
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+
+// 2. Base
+@use 'base/base';
+@use 'base/typography';
+@use 'base/utilities';
+
+// 3. Components
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+@use 'components/states';
+
+// 4. Layout
+@use 'layout/dashboard';
+@use 'layout/portfolio';
+
+// 5. Pages
+@use 'pages/home';
+@use 'pages/portfolio' as page-portfolio;
+@use 'pages/tools';
+@use 'pages/phishing';

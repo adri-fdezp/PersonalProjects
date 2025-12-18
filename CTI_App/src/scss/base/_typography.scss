@@ -1,0 +1,51 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.heading-hero {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: $white;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+
+  @include md {
+    font-size: 4.5rem;
+  }
+}
+
+.heading-section {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: $white;
+
+  @include md {
+    font-size: 2.25rem;
+  }
+}
+
+.heading-card {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $white;
+  margin-bottom: 0.5rem;
+}
+
+.text-highlight {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to right, $cyan-400, #2563eb);
+}
+
+.text-muted {
+  color: $slate-400;
+  font-size: 0.875rem;
+}
+
+.text-cyber {
+  font-family: $font-mono;
+  color: $cyan-400;
+}

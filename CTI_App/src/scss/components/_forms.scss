@@ -1,0 +1,31 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.input-cyber {
+  width: 100%;
+  background-color: $slate-950;
+  border: 1px solid $slate-700;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  color: $white;
+  transition: all 150ms;
+  
+  &::placeholder {
+    color: $slate-600;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $cyan-500;
+    box-shadow: 0 0 0 1px $cyan-500;
+  }
+}
+
+.label-cyber {
+  display: block;
+  color: $cyan-400;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: $font-mono;
+}

@@ -33,8 +33,8 @@ export default function Hero() {
         
         <div className="hero-actions">
             {/* New Button for Cyber Tool */}
-            <Link to="/" className="btn-primary btn-hero-cyber-tool">
-                &gt; Launch_Cyber_Toolkit
+            <Link to="/" className="btn-primary" style={{ backgroundColor: 'rgba(6, 182, 212, 0.2)', borderColor: '#06b6d4', color: '#22d3ee' }}>
+                &gt; Cyber_Toolkit
             </Link>
 
             {/* Fixed Scroll Links */}

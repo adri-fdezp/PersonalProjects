@@ -1,6 +1,6 @@
-@use 'variables' as *;
-@use 'mixins' as *;
-@use 'components';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../components/cards';
 
 /* =========================================
    OSINT DASHBOARD & TOOLS
