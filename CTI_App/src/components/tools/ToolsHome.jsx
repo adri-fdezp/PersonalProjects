@@ -16,6 +16,27 @@ export default function ToolsHome({ onNavigate }) {
         </p>
       </div>
 
+       {/* Project Scope & Capabilities */}
+       <div className="info-card" style={{ marginBottom: '2rem' }}>
+          <h3>
+            <span style={{color: '#06b6d4'}}>&gt;</span> Project Scope & Capabilities
+          </h3>
+          <ul className="mission-list">
+            <li>
+              <span className="bullet">●</span>
+              <span><strong>Centralized Intelligence Gathering:</strong> A unified interface for querying multiple OSINT sources, demonstrating the ability to aggregate and process disparate data streams for rapid reconnaissance.</span>
+            </li>
+            <li>
+              <span className="bullet">●</span>
+              <span><strong>Real-Time Threat Visualization:</strong> Interactive data visualization of CISA's Known Exploited Vulnerabilities (KEV) catalog, showcasing skills in data-driven storytelling and front-end engineering.</span>
+            </li>
+            <li>
+              <span className="bullet">●</span>
+              <span><strong>Structured Analytical Workflows:</strong> Integrated playbooks for phishing analysis and domain investigation, reflecting a deep understanding of standard SOC procedures and defensive methodologies.</span>
+            </li>
+          </ul>
+      </div>
+
       {/* Tools Grid */}
       <div className="home-tools-grid">
         
@@ -88,26 +109,6 @@ export default function ToolsHome({ onNavigate }) {
           </div>
         </div>
 
-      </div>
-
-      {/* System Status Footer */}
-      <div className="status-footer">
-        <div className="status-item">
-            <p className="label">System Version</p>
-            <p className="value text-white">v2.4.0-alpha</p>
-        </div>
-        <div className="status-item">
-            <p className="label">Last Update</p>
-            <p className="value text-white">2025-12-07</p>
-        </div>
-        <div className="status-item">
-            <p className="label">Security Level</p>
-            <p className="value text-green">SECURE</p>
-        </div>
-         <div className="status-item">
-            <p className="label">Active Modules</p>
-            <p className="value text-cyan">2 / 3</p>
-        </div>
       </div>
 
     </div>
