@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 @use 'components';
-@use 'phishing';
 
 /* =========================================
    OSINT DASHBOARD & TOOLS
@@ -458,5 +457,3 @@
     }
   }
 }
-
-@use 'phishing';

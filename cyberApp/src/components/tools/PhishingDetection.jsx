@@ -68,9 +68,7 @@ X-Originating-IP: [10.5.22.11]`;
       <textarea 
         value={headerText}
         onChange={(e) => setHeaderText(e.target.value)}
-        placeholder={`Return-Path: <...>
-Received: from ...
-...`}
+        placeholder={`Return-Path: <...>\nReceived: from ...\n...`}
       />
       <button onClick={analyzeHeaders} className="analyze-btn">
         Analyze Headers
@@ -84,20 +82,20 @@ Received: from ...
               Risk Level: {analysis.riskScore > 2 ? 'HIGH' : analysis.riskScore > 0 ? 'MEDIUM' : 'LOW'}
             </span>
           </div>
-          <div className="result-grid">
-            <div className="result-item">
+          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
               <span className="label">Return-Path</span>
               <code className="value">{analysis.returnPath}</code>
             </div>
-            <div className="result-item">
+            <div>
               <span className="label">From Address</span>
               <code className="value white">{analysis.from}</code>
             </div>
-            <div className="result-item">
+            <div>
               <span className="label">SPF Status</span>
               <span className={`value ${analysis.spf.toLowerCase().includes('fail') ? 'red' : 'green'}`}>{analysis.spf}</span>
             </div>
-            <div className="result-item">
+            <div>
               <span className="label">Originating IP</span>
               <code className="value plain">{analysis.ip}</code>
             </div>
@@ -198,9 +196,9 @@ const SECTIONS = [
               <span className="icon">🔗</span> The Payload (URL/Attachment)
             </h4>
             <ul>
-              <li><strong>Typosquatting:</strong> <code className="cyan">microsoft-login-secure.com</code> instead of <code>microsoft.com</code>.</li>
-              <li><strong>Obfuscation:</strong> URL shorteners (bit.ly) or open redirects used to hide the true destination.</li>
-              <li><strong>Double Extensions:</strong> <code className="red">invoice.pdf.exe</code> relies on Windows hiding known extensions.</li>
+              <li>Typosquatting: <code className="cyan">microsoft-login-secure.com</code> instead of <code>microsoft.com</code>.</li>
+              <li>Obfuscation: URL shorteners (bit.ly) or open redirects used to hide the true destination.</li>
+              <li>Double Extensions: <code className="red">invoice.pdf.exe</code> relies on Windows hiding known extensions.</li>
             </ul>
           </div>
         </div>
